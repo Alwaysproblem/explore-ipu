@@ -1,11 +1,15 @@
-import os
 import numpy as np
 
 
-from tensorflow.python import ipu
-from tensorflow.python.ipu.scopes import ipu_scope
+# from tensorflow.python import ipu
+# from tensorflow.python.ipu.scopes import ipu_scope
+# import tensorflow.compat.v1 as tf
 
-import tensorflow.compat.v1 as tf
+import tensorflow # to avoid import error
+# from tensorflow import TensorArray # to avoid import error
+import tensorflow_core._api.v1.compat.v1 as tf
+from tensorflow_core.python import ipu
+from tensorflow_core.python.ipu.scopes import ipu_scope
 
 tf.disable_v2_behavior()
 
@@ -16,12 +20,12 @@ ipu.utils.configure_ipu_system(cfg)
 
 with tf.device("cpu"):
     pa = tf.placeholder(np.float32, [2], name = "a")
-    pb = tf.placeholder(np.float32, [2], name = "b")
+    pb = tf.placeholder(np.float32, [2], name = "d")
     pc = tf.placeholder(np.float32, [2], name = "c")
 
 
 def basic_graph(pa, pb, pc):
-    o1 = pa + pb
+    o1 = pa + pb * pc
     o2 = pa + pc
 
     simple_graph_output = o1 + o2
