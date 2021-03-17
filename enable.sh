@@ -9,8 +9,11 @@ export TF_POPLAR_FLAGS='--max_compilation_threads=40 --executable_cache_path=/lo
 export TMPDIR='/localdata/yongxiy/tmp'
 export IPUOF_CONFIG_PATH=/localdata/yongxiy/tmp/pod16_ipuof.conf 
 
+POP_VERSION="2.0.0+481-79b41f85d1"
+POPART_VERSION="2.0.0+108156-165bbd8a64"
+POPLAR_VERSION="2.0.0+108156-165bbd8a64"
 
-POPART_ROOT="$HOME/Desktop/poplar_sdk-ubuntu_18_04-2.0.0-EA.1+418-ec08eca1f6/popart-ubuntu_18_04-1.5.0+91590-712863139b"
+POPART_ROOT="$HOME/Desktop/poplar_sdk-ubuntu_18_04-${POP_VERSION}/popart-ubuntu_18_04-${POPART_VERSION}"
 
 function echo_popart_info {
   echo "Please input the root path of popart:"
@@ -66,7 +69,7 @@ export TF_POPLAR_FLAGS='--max_compilation_threads=40 --executable_cache_path=/lo
 export TMPDIR='/localdata/yongxiy/tmp'
 export IPUOF_CONFIG_PATH=/localdata/yongxiy/tmp/pod16_ipuof.conf 
 
-POPART_ROOT="\$HOME/Desktop/poplar_sdk-ubuntu_18_04-2.0.0-EA.1+418-ec08eca1f6/popart-ubuntu_18_04-1.5.0+91590-712863139b"
+POPART_ROOT="\$HOME/Desktop/poplar_sdk-ubuntu_18_04-${POP_VERSION}/popart-ubuntu_18_04-${POPART_VERSION}"
 export CMAKE_PREFIX_PATH=\${POPART_ROOT}\${CMAKE_PREFIX_PATH:+:\${CMAKE_PREFIX_PATH}}
 export CPATH=\${POPART_ROOT}/include\${CPATH:+:\${CPATH}}
 export LIBRARY_PATH=\${POPART_ROOT}/lib\${LIBRARY_PATH:+:\${LIBRARY_PATH}}
@@ -75,7 +78,7 @@ export PYTHONPATH=\${POPART_ROOT}/python:\$PYTHONPATH
 
 if [ -z \${POPLAR_SDK_ENABLED+x} ]
 then
-  POPLAR_ROOT="\$HOME/Desktop/poplar_sdk-ubuntu_18_04-2.0.0-EA.1+418-ec08eca1f6/poplar-ubuntu_18_04-2.0.0+91590-712863139b"
+  POPLAR_ROOT="\$HOME/Desktop/poplar_sdk-ubuntu_18_04-${POP_VERSION}/poplar-ubuntu_18_04-${POPLAR_VERSION}"
   export CMAKE_PREFIX_PATH=\${POPLAR_ROOT}\${CMAKE_PREFIX_PATH:+:\${CMAKE_PREFIX_PATH}}
   export PATH=\${POPLAR_ROOT}/bin\${PATH:+:\${PATH}}
   export CPATH=\${POPLAR_ROOT}/include\${CPATH:+:\${CPATH}}
@@ -109,7 +112,7 @@ export PYTHONPATH=${POPART_ROOT}/python:$PYTHONPATH
 if [ -z ${POPLAR_SDK_ENABLED+x} ]
 then
 #   POPLAR_ROOT=$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
-  POPLAR_ROOT="$HOME/Desktop/poplar_sdk-ubuntu_18_04-2.0.0-EA.1+418-ec08eca1f6/poplar-ubuntu_18_04-2.0.0+91590-712863139b"
+  POPLAR_ROOT="$HOME/Desktop/poplar_sdk-ubuntu_18_04-${POP_VERSION}/poplar-ubuntu_18_04-${POPLAR_VERSION}"
 
   echo_popart_info $POPLAR_ROOT
   read poplar_root_path
@@ -131,7 +134,7 @@ else
 fi
 
 # this for debugging and run
-gen_envfile ".inpu.env"
+gen_envfile ".ipu.env"
 
 
 # this is for terminal

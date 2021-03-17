@@ -8,7 +8,7 @@ export TF_POPLAR_FLAGS='--max_compilation_threads=40 --executable_cache_path=/lo
 export TMPDIR='/localdata/yongxiy/tmp'
 export IPUOF_CONFIG_PATH=/localdata/yongxiy/tmp/pod16_ipuof.conf 
 
-POPART_ROOT="$HOME/Desktop/poplar_sdk-ubuntu_18_04-2.0.0-EA.1+418-ec08eca1f6/popart-ubuntu_18_04-1.5.0+91590-712863139b"
+POPART_ROOT="$HOME/Desktop/poplar_sdk-ubuntu_18_04-2.0.0+481-79b41f85d1/popart-ubuntu_18_04-2.0.0+108156-165bbd8a64"
 export CMAKE_PREFIX_PATH=${POPART_ROOT}${CMAKE_PREFIX_PATH:+:${CMAKE_PREFIX_PATH}}
 export CPATH=${POPART_ROOT}/include${CPATH:+:${CPATH}}
 export LIBRARY_PATH=${POPART_ROOT}/lib${LIBRARY_PATH:+:${LIBRARY_PATH}}
@@ -17,7 +17,7 @@ export PYTHONPATH=${POPART_ROOT}/python:$PYTHONPATH
 
 if [ -z ${POPLAR_SDK_ENABLED+x} ]
 then
-  POPLAR_ROOT="$HOME/Desktop/poplar_sdk-ubuntu_18_04-2.0.0-EA.1+418-ec08eca1f6/poplar-ubuntu_18_04-2.0.0+91590-712863139b"
+  POPLAR_ROOT="$HOME/Desktop/poplar_sdk-ubuntu_18_04-2.0.0+481-79b41f85d1/poplar-ubuntu_18_04-2.0.0+108156-165bbd8a64"
   export CMAKE_PREFIX_PATH=${POPLAR_ROOT}${CMAKE_PREFIX_PATH:+:${CMAKE_PREFIX_PATH}}
   export PATH=${POPLAR_ROOT}/bin${PATH:+:${PATH}}
   export CPATH=${POPLAR_ROOT}/include${CPATH:+:${CPATH}}
