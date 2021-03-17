@@ -10,13 +10,14 @@ import tensorflow # to avoid import error
 import tensorflow_core._api.v1.compat.v1 as tf
 from tensorflow_core.python import ipu
 from tensorflow_core.python.ipu.scopes import ipu_scope
+from tensorflow_core.python.ipu.utils import (create_ipu_config, set_ipu_model_options, auto_select_ipus, configure_ipu_system)
 
 tf.disable_v2_behavior()
 
-cfg = ipu.utils.create_ipu_config(profiling=True, use_poplar_text_report=True) 
-cfg = ipu.utils.set_ipu_model_options(cfg, compile_ipu_code=False)
-cfg = ipu.utils.auto_select_ipus(cfg, 1) 
-ipu.utils.configure_ipu_system(cfg)
+cfg = create_ipu_config(profiling=True, use_poplar_text_report=True) 
+cfg = set_ipu_model_options(cfg, compile_ipu_code=False)
+cfg = auto_select_ipus(cfg, 1) 
+configure_ipu_system(cfg)
 
 with tf.device("cpu"):
     pa = tf.placeholder(np.float32, [2], name = "a")
