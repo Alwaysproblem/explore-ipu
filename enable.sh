@@ -5,7 +5,7 @@
 export GCDA_MONITOR=1
 export TF_CPP_VMODULE='poplar_compiler=1,poplar_executable=1'
 # export TF_CPP_VMODULE='poplar_compiler=1'
-export TF_POPLAR_FLAGS='--max_compilation_threads=40 --executable_cache_path=/localdata/yongxiy/cachedir'
+export TF_POPLAR_FLAGS='--max_compilation_threads=40 --executable_cache_path=/localdata/yongxiy/cachedir --show_progress_bar=true'
 export TMPDIR='/localdata/yongxiy/tmp'
 export IPUOF_CONFIG_PATH=/localdata/yongxiy/tmp/pod16_ipuof.conf 
 
