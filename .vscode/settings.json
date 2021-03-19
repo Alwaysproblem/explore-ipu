@@ -1,5 +1,5 @@
 {
-    // "python.pythonPath": "/mnt/scratch001/custeng-cn-scratch/yongxiy/env/anaconda3/envs/tf1-ipu/bin/python",
+    "python.pythonPath": "/mnt/scratch001/custeng-cn-scratch/yongxiy/env/anaconda3/envs/tf1-ipu/bin/python",
     "python.envFile": "${workspaceFolder}/.vscode/.ipu.env",
     // this is for running bash script before initiating internal terminal
     "terminal.integrated.shellArgs.linux": ["-c", "source .vscode/terminal.env.sh; zsh"],
@@ -7,13 +7,13 @@
     // "terminal.integrated.shellArgs.linux": ["-c", "if [ -e .env ]; then export `cat .env`; fi; if [ -e .vscode/.env ]; then export `cat .vscode/.env`; fi; zsh;"],
 
     "python.autoComplete.extraPaths": [
-        "/localdata/yongxiy/Desktop/explore-ipu/tensorflow",
+        // "/localdata/yongxiy/Desktop/explore-ipu/tensorflow",
         // "/home/scotty/Desktop/poplar_sdk-ubuntu_18_04-2.0.0-EA.1+418-ec08eca1f6/poplar-ubuntu_18_04-2.0.0+91590-712863139b/python/",
         // "/home/scotty/Desktop/poplar_sdk-ubuntu_18_04-2.0.0-EA.1+418-ec08eca1f6/poplar-ubuntu_18_04-2.0.0+91590-712863139b/lib/python/",
         // "/home/scotty/Desktop/poplar_sdk-ubuntu_18_04-2.0.0-EA.1+418-ec08eca1f6/popart-ubuntu_18_04-1.5.0+91590-712863139b/python/",
     ],
     "python.analysis.extraPaths": [
-        "/localdata/yongxiy/Desktop/explore-ipu/tensorflow",
+        // "/localdata/yongxiy/Desktop/explore-ipu/tensorflow",
         // "/home/scotty/Desktop/poplar_sdk-ubuntu_18_04-2.0.0-EA.1+418-ec08eca1f6/poplar-ubuntu_18_04-2.0.0+91590-712863139b/python/popdist",
         // "/home/scotty/Desktop/poplar_sdk-ubuntu_18_04-2.0.0-EA.1+418-ec08eca1f6/poplar-ubuntu_18_04-2.0.0+91590-712863139b/lib/python/",
         // "/home/scotty/Desktop/poplar_sdk-ubuntu_18_04-2.0.0-EA.1+418-ec08eca1f6/popart-ubuntu_18_04-1.5.0+91590-712863139b/python/",

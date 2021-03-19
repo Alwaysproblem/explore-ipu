@@ -5,8 +5,8 @@ import numpy as np
 # from tensorflow.python.ipu.scopes import ipu_scope
 # import tensorflow.compat.v1 as tf
 
-import tensorflow # to avoid import error
-# from tensorflow import TensorArray # to avoid import error
+# import tensorflow # to avoid import error
+from tensorflow import TensorArray # to avoid import error
 import tensorflow_core._api.v1.compat.v1 as tf
 from tensorflow_core.python import ipu
 from tensorflow_core.python.ipu.scopes import ipu_scope
