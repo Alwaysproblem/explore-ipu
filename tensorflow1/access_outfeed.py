@@ -17,7 +17,7 @@ tf.disable_v2_behavior()
 ds = tf.data.Dataset.from_tensors(tf.constant(1.0, shape=[2, 20]))
 ds = ds.repeat()
 
-infeed_queue = ipu_infeed_queue.IPUInfeedQueue(ds, feed_name = "infeed")
+infeed_queue = ipu_infeed_queue.IPUInfeedQueue(ds, feed_name = "infeed", prefetch_depth = 3)
 outfeed_queue = ipu_outfeed_queue.IPUOutfeedQueue(feed_name = "outfeed")
 
 

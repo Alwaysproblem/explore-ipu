@@ -44,8 +44,8 @@ function gen_envfile(){
   echo -ne "" > "./.vscode/${file_name}"
 
   echo "GCDA_MONITOR=$GCDA_MONITOR" >> "./.vscode/${file_name}"
-  echo "TF_CPP_VMODULE='$TF_CPP_VMODULE'" >> "./.vscode/${file_name}"
-  echo "TF_POPLAR_FLAGS='$TF_POPLAR_FLAGS'" >> "./.vscode/${file_name}"
+  echo "TF_CPP_VMODULE=\"$TF_CPP_VMODULE\"" >> "./.vscode/${file_name}"
+  echo "TF_POPLAR_FLAGS=\"$TF_POPLAR_FLAGS\"" >> "./.vscode/${file_name}"
   echo "TMPDIR=$TMPDIR" >> "./.vscode/${file_name}"
   echo "IPUOF_CONFIG_PATH=$IPUOF_CONFIG_PATH" >> "./.vscode/${file_name}"
   echo "CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH" >> "./.vscode/${file_name}"
@@ -66,8 +66,8 @@ function gen_terminial_init_script(){
 # set -ex
 
 export GCDA_MONITOR=$GCDA_MONITOR
-export TF_CPP_VMODULE='$TF_CPP_VMODULE'
-export TF_POPLAR_FLAGS='$TF_POPLAR_FLAGS'
+export TF_CPP_VMODULE="$TF_CPP_VMODULE"
+export TF_POPLAR_FLAGS="$TF_POPLAR_FLAGS"
 export TMPDIR="$TMPDIR"
 export IPUOF_CONFIG_PATH="$IPUOF_CONFIG_PATH"
 

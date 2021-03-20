@@ -2,10 +2,10 @@
 # set -ex
 
 export GCDA_MONITOR=1
-export TF_CPP_VMODULE=poplar_compiler=1,poplar_executable=1
-export TF_POPLAR_FLAGS="'--max_compilation_threads=40 --executable_cache_path=/mnt/scratch001/custeng-cn-scratch/yongxiy/cachedir --show_progress_bar=true'"
-export TMPDIR=/mnt/scratch001/custeng-cn-scratch/yongxiy/tmp
-export IPUOF_CONFIG_PATH=/mnt/scratch001/custeng-cn-scratch/yongxiy/sdk/pod16_ipuof.conf
+export TF_CPP_VMODULE="poplar_compiler=1,poplar_executable=1"
+export TF_POPLAR_FLAGS="--max_compilation_threads=40 --executable_cache_path=/mnt/scratch001/custeng-cn-scratch/yongxiy/cachedir --show_progress_bar=true"
+export TMPDIR="/mnt/scratch001/custeng-cn-scratch/yongxiy/tmp"
+export IPUOF_CONFIG_PATH="/mnt/scratch001/custeng-cn-scratch/yongxiy/sdk/pod16_ipuof.conf"
 
 POPART_ROOT="/mnt/scratch001/custeng-cn-scratch/yongxiy/sdk/poplar_sdk-ubuntu_18_04-2.0.0+481-79b41f85d1/popart-ubuntu_18_04-2.0.0+108156-165bbd8a64"
 export CMAKE_PREFIX_PATH=${POPART_ROOT}${CMAKE_PREFIX_PATH:+:${CMAKE_PREFIX_PATH}}
