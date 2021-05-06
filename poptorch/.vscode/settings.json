@@ -1,9 +1,3 @@
 {
-    "python.envFile": "${workspaceFolder}/.vscode/.ipu.env",
-    // this is for running bash script before initiating internal terminal
-    "terminal.integrated.shellArgs.linux": [
-        "-c",
-        "source .vscode/terminal.env.sh; zsh"
-    ],
-    "python.pythonPath": "/mnt/scratch001/custeng-cn-scratch/yongxiy/env/anaconda3/envs/pytorch-ipu/bin/python",
+    "python.pythonPath": "/mnt/scratch001/custeng-cn-scratch/yongxiy/env/anaconda3/envs/pytorch-sdk-2.1.0-EA.1+539/bin/python"
 }
