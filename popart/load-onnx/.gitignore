@@ -1,0 +1,10 @@
+bertsquad-10
+*.onnx
+*.out
+gen_tf_onnx
+uncased_L-12_H-768_A-12
+__pycache__
+*.tar.gz
+popv
+*.zip
+onnx-notuse
