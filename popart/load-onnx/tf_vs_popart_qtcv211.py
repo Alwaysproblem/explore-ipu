@@ -3,6 +3,11 @@ import numpy as np
 from typing import *
 import time
 
+import tensorflow.compat.v1 as tf
+from tensorflow.saved_model import tag_constants
+from tensorflow.python.ipu import utils
+from tensorflow.python import ipu
+
 np.random.seed(1)
 
 def make_an_anchor(onnx_model_builder: popart.Builder, anchor_return_type: str = "ALL"):
@@ -45,7 +50,6 @@ def add_shapeinfo_from_onnx(onnx_model_builder: popart.Builder, batch_size = 1, 
                                 batch_size=batch_size * batch_per_step) for i in inputs_tensor_id]
     print(inputs_shapes)
     inputs_dtypes = [convert_popart_dtype(onnx_model_builder.getTensorDtypeString(i)) for i in inputs_tensor_id]
-    print(inputs_dtypes)
 
     inputs_tensor_shapes = [set_batch_size(onnx_model_builder.getTensorShape(i), 
                                 batch_size=batch_size) for i in inputs_tensor_id + outputs_tensor_id]
@@ -63,24 +67,14 @@ def fake_dataset(inputs_tensor_id, inputs_shapes, inputs_dtypes, num_samples = 1
     for _ in range(num_samples):
         yield { i: np.random.randint(12, size=s).astype(convert_numpy_dtype(d)) for i, s, d in zip(inputs_tensor_id, inputs_shapes, inputs_dtypes) }
 
-def main():
-
-    # batch_size = 5
-    # batch_per_step = 20
-    # global_batch_size = batch_per_step * batch_size
-    # epochs = 80
-    # n_sample = epochs + 10 * 2
+def popart_onnx():
 
     batch_size = 1
     batch_per_step = 1
-    global_batch_size = batch_per_step * batch_size
-    # epochs = 80
+
     n_sample = 1
 
-    builder = popart.Builder("qtc35/model.onnx")
-    # builder = popart.Builder("subqtc-manually.onnx")
-    # builder = popart.Builder("qtc211-tf-ipu/qtcv211-int32-manual.onnx")
-    # builder = popart.Builder("reproducer/sub_qtcv211.onnx")
+    builder = popart.Builder("qtc211-tf-ipu/qtcv211-int32-manual.onnx")
     anchors = make_an_anchor(builder)
     inputs_tensor_id, inputShapeInfo, inputs_shapes, inputs_dtypes = add_shapeinfo_from_onnx(builder, batch_size=batch_size, batch_per_step = batch_per_step)
     # anchors = {output_name: popart.AnchorReturnType("All") for output_name in builder.getOutputTensorIds() }
@@ -96,35 +90,70 @@ def main():
     opts.convolutionOptions = {'partialsType': partials_type}
     # opts.groupHostSync = True
 
-    # session = popart.InferenceSession(builder.getModelProto(), dataflow, device, inputShapeInfo)
     session = popart.InferenceSession(builder.getModelProto(), dataflow, device, 
                                     inputShapeInfo=inputShapeInfo,
                                     userOptions=opts)
 
-    # feed_dict = { i: np.random.randint(12, size=s).astype(convert_numpy_dtype(d)) for i, s, d in zip(inputs_tensor_id, inputs_shapes, inputs_dtypes) }
+    outputs_tensor_name = builder.getOutputTensorIds()
 
     session.prepareDevice()
     anchors = session.initAnchorArrays()
 
-    durations = []
-
     for feed_dict in fake_dataset(inputs_tensor_id, inputs_shapes, inputs_dtypes, num_samples=n_sample):
 
-        print("[qtc-inference] Starting batch inference")
+        # print("[qtcv35-inference] Starting batch inference")
         stepio = popart.PyStepIO(feed_dict, anchors)
-        start = time.perf_counter()
+        # start = time.perf_counter()
         session.run(stepio)
-        for k, v in anchors.items():
-            print(v)
-        duration = time.perf_counter() - start
 
-        durations.append(duration / global_batch_size)
+    for k, v in anchors.items():
+        print(v)
 
-    np_dur = np.array(durations[10:]).mean()
-    print(f"Latency: {np_dur} s/sample(mean)")
+    return anchors, feed_dict, outputs_tensor_name
 
-    # for k, v in anchors.items():
-    #     print(v)
+def tf_pb(feed_dict, output_tensor_names):
+    # Builds ipu_options
+    config = utils.create_ipu_config()
+
+    config = utils.auto_select_ipus(config, 2)
+
+    config = utils.set_convolution_options(config, {
+        "availableMemoryProportion": str(0.4),
+        "partialsType": "half"
+    })
+    config = utils.set_matmul_options(config, {
+        "availableMemoryProportion": str(0.4),
+        "partialsType": "half",
+    })
+
+    ipu.utils.configure_ipu_system(config)
+
+    restored_graph = tf.Graph()
+    with restored_graph.as_default():
+        with tf.Session() as sess:
+            model = tf.saved_model.loader.load(
+                sess,
+                [tag_constants.SERVING],
+                'qtc211-tf-ipu/model',
+            )
+
+            # set device info to CPU
+            ops = restored_graph.get_operations() 
+            for op in ops: 
+                op._set_device('/device:CPU:0')
+
+            # pred_ops = [restored_graph.get_tensor_by_name(tname) for tname in output_tensor_names]
+            pred_ops = restored_graph.get_tensor_by_name("concat:0")
+
+            F_dict = { restored_graph.get_tensor_by_name(tname): values for tname, values in feed_dict.items()}
+
+            prob = sess.run(pred_ops, feed_dict=F_dict)
+            print(prob)
+
+    return prob
 
 if __name__ == '__main__':
-    main()
+    anchor, feed_dict, onames = popart_onnx()
+    prob = tf_pb(feed_dict, onames)
+    print()
+

@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "/mnt/scratch001/custeng-cn-scratch/yongxiy/env/anaconda3/envs/popart-sdk.2.1.0-EA.1+571/bin/python",
+    "python.pythonPath": "/mnt/scratch001/custeng-cn-scratch/yongxiy/env/anaconda3/envs/tf1-sdk.2.1.0-EA.1+495/bin/python",
     "jupyter.jupyterServerType": "remote"
 }
