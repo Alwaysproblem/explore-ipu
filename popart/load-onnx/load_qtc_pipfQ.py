@@ -130,7 +130,7 @@ def run(builder, opts, batch_size = 1, batch_per_step = 1, n_sample = None):
 
 def main():
 
-    batch_size = 5
+    batch_size = 8
     batch_per_step = 20
     global_batch_size = batch_per_step * batch_size
     epochs = 80
@@ -146,8 +146,9 @@ def main():
     # builder = popart.Builder("qtc35-onnx-pipeline/model.onnx")
     # builder = popart.Builder("qtc35/model.onnx")
     # builder = popart.Builder("subqtc-manually.onnx")
-    builder = popart.Builder("qtc211-tf-ipu/qtcv211-int32-manual.onnx")
-    # builder = popart.Builder("qtc211-tf-ipu/qtcv211-wo-kv.onnx")
+    builder = popart.Builder("qtc211-tf-ipu-fp16/qtcv211-int32-manual.onnx")
+    # builder = popart.Builder("qtc211-tf-ipu-fp16/qtcv211-int32-manual.onnx")
+    # builder = popart.Builder("qtc211-tf-ipu-fp16/qtcv211-wo-kv.onnx")
     # builder = popart.Builder("reproducer/sub_qtcv211.onnx")
     anchors = make_an_anchor(builder)
     inputs_tensor_id, inputShapeInfo, inputs_shapes, inputs_dtypes = add_shapeinfo_from_onnx(builder, batch_size=batch_size, batch_per_step = batch_per_step)
@@ -205,6 +206,7 @@ def main():
     anchors = session.initAnchorArrays()
 
     durations = []
+    tputs = []
 
     for feed_dict in fake_dataset(inputs_tensor_id, inputs_shapes, inputs_dtypes, num_samples=n_sample):
 
@@ -216,10 +218,14 @@ def main():
         for k, v in anchors.items():
             print(v)
 
-        durations.append(duration / global_batch_size)
+        # durations.append(duration / global_batch_size)
+        durations.append(duration / batch_per_step)
+        tputs.append(global_batch_size / duration)
 
     np_dur = np.array(durations[10:]).mean()
-    print(f"Latency: {np_dur} s/sample(mean)")
+    np_tput = np.array(tputs[10:]).mean()
+    print(f"Latency: {np_dur} s / batch (mean)")
+    print(f"Troughput: {np_tput} samples / sec (mean)")
 
     # for k, v in anchors.items():
     #     print(v)
