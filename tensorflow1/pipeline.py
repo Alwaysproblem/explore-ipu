@@ -1,4 +1,5 @@
 import numpy as np
+import sys
 import os
 # TF_POPLAR_FLAGS = os.environ.get("TF_POPLAR_FLAGS", None)
 # os.environ["TF_POPLAR_FLAGS"] = "--use_ipu_model" if TF_POPLAR_FLAGS is None else TF_POPLAR_FLAGS + ' --use_ipu_model'
@@ -67,8 +68,20 @@ with tf.device("/device:IPU:0"):
     r = ipu.ipu_compiler.compile( lambda: pipeline_op, inputs=[])
 
 
-with tf.Session() as sess:
-    sess.run(tf.global_variables_initializer())
-    sess.run(infeed_queue.initializer)
-    sess.run(r)
-    print(sess.run(outfeed_queue.dequeue()))
+if compile_only = True:
+    with tf.Session() as sess:
+        compile_only = True
+        try:
+            sess.run(tf.global_variables_initializer())
+        except tf.errors.OpError as e:
+            if compile_only and 'compilation only' in e.message:
+                print("Validation graph successfully compiled")
+                print("Exiting...")
+                sys.exit(0)
+            raise tf.errors.ResourceExhaustedError(e.node_def, e.op, e.message)
+else:
+    with tf.Session() as sess:
+        sess.run(tf.global_variables_initializer())
+        sess.run(infeed_queue.initializer)
+        sess.run(r)
+        print(sess.run(outfeed_queue.dequeue()))

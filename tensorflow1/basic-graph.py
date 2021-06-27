@@ -1,6 +1,7 @@
 import numpy as np
-
-
+import os
+TF_POPLAR_FLAGS = os.environ.get("TF_POPLAR_FLAGS", None)
+os.environ["TF_POPLAR_FLAGS"] = "--use_ipu_model" if TF_POPLAR_FLAGS is None else TF_POPLAR_FLAGS + ' --use_ipu_model'
 # from tensorflow.python import ipu
 # from tensorflow.python.ipu.scopes import ipu_scope
 # import tensorflow.compat.v1 as tf
