@@ -1,0 +1,11 @@
+modelURL:
+  standard: "qtcv211-tf-ipu"
+  needfix: "qtcv211-tf-ipu-int32"
+
+outputNode:
+  - "reload_query/ones_like:0"
+  # - "reload_query/mul:0"
+  # - "reload_query/strided_slice_1:0"
+  # - "reload_query/concat:0"
+  # - "reload_query/SequenceMask_1/Less:0"
+  - "concat:0"
